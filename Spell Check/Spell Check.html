@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Spell Check</title>
+<script src="wordlist.js"></script>
+<script type="text/javascript">
+function checkSpelling() {
+	var text = document.getElementById("text2check").value;
+	var words = text.split(" ");
+	for (var w=0;w<words.length;w++) {
+		var wordFound = false;
+		var fixedWord = words[w].toUpperCase();
+		// This makes all letters upper case to check against the js file of uppercase words.
+		var n=0;
+		while (n<fixedWord.length) {
+			if (fixedWord.charAt(n)>='A' &&
+				fixedWord.charAt(n)<='Z')
+				n++;
+			else if (fixedWord.charAt(n)=='\'')
+				n++;
+				// This continues the concatenation if the word contains an apostrophe so that the entire word is checked.
+			else if (fixedWord.charAt(n)>=0 &&
+					fixedWord.charAt(n)<Number.POSITIVE_INFINITY)
+				n++;
+				// This checks against numbers that may be in the words by accidental typing.
+			else
+				fixedWord = fixedWord.substring(0,n)+
+					fixedWord.substring(n+1);
+		} // While loop	eliminates punctuation and numbers, checking for lettering only.
+		if (fixedWord.length==0) continue;
+		for (var s=0;s<wordlist.length;s++) {
+			if (fixedWord==wordlist[s]) {
+				wordFound = true;
+				break;
+			}
+		} // for each item in the wordlist, goes through and checks all items before returning error.
+		if (!wordFound) 
+			alert(words[w]+" is not spelled correctly.");
+			
+	} // This is for each word, separating the words by the spaces in between them and checking the spelling of the string of words.
+} // checkSpelling() ending bracket
+
+</script>
+</head>
+<body style="text-align: center;">
+<h1 style="border-bottom:1px solid black; padding:15px;">SpellChecker</h1>
+<label for="text2check" style="display:block;">Type some text to check...</label>
+<textarea id="text2check" row="8" cols="60"></textarea>
+<!-- This is the area in which the user inputs the text to be spellchecked -->
+<br></br>
+<button onClick="checkSpelling();">Check spelling</button>
+<!-- This is the button that performs the function of checking the inputted text into the field -->
+<br>
+<p>By: Kenneth Miller</p>
+</body>
+</html>
